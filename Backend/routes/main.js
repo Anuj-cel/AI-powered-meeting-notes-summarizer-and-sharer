@@ -1,8 +1,12 @@
 const express = require('express');
 
+
 const createSummarizeRouter = (transporter, apiKey) => {
   const router = express.Router();
   
+  let marked;
+  import('marked').then(m => { marked = m.marked });
+
   
   router.post('/summarize', async (req, res) => {
     const { transcript, prompt } = req.body;
@@ -13,7 +17,6 @@ const createSummarizeRouter = (transporter, apiKey) => {
 
     const fullPrompt = `${prompt}\n\nTranscript:\n${transcript}`;
 
-    // API call payload
     const payload = {
       contents: [{
         parts: [{ text: fullPrompt }]
@@ -44,7 +47,7 @@ const createSummarizeRouter = (transporter, apiKey) => {
     }
   });
 
-
+  
   router.post('/share', async (req, res) => {
     const { summary, emails } = req.body;
 
@@ -52,7 +55,7 @@ const createSummarizeRouter = (transporter, apiKey) => {
       return res.status(400).json({ error: 'Summary and recipient emails are required.' });
     }
     
-    const formattedSummary = summary.replace(/\n/g, '<br>');
+    const formattedSummary = marked.parse(summary);
 
     const recipients = emails.split(',').map(email => email.trim());
 
