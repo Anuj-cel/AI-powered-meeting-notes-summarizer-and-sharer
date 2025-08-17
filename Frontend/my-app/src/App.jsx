@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
-import "./App.css"; // Assuming you have a CSS file for styles
-import { marked } from 'marked'; // For rendering markdown in the summary
-/**
- * Main application component for thFe AI-powered meeting notes summarizer.
- * This component now acts as the frontend, making API calls to a separate
- * Express.js backend to perform summarization and email sharing.
- */
+import "./App.css"; 
+import { marked } from 'marked'; 
 const App = () => {
   const [transcript, setTranscript] = useState('');
   const [prompt, setPrompt] = useState('Summarize the following text in bullet points, highlighting key decisions and action items.');
@@ -13,21 +8,14 @@ const App = () => {
   const [emails, setEmails] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
-  const backendUrl = "http://localhost:3001"; // URL for the Express backend
-
-  /**
-   * Clears the message after a set duration.
-   */
+  const backendUrl = "https://ai-powered-meeting-notes-summarizer-and-xc51.onrender.com"; 
   const clearMessage = () => {
     setTimeout(() => {
       setMessage('');
     }, 5000);
   };
 
-  /**
-   * Handles the request to generate a summary by calling the backend API.
-   * It sends the user's transcript and prompt to the Express server.
-   */
+
   const handleGenerateSummary = async () => {
     if (!transcript) {
       setMessage('Please enter a transcript to summarize.');
@@ -64,10 +52,7 @@ const App = () => {
     }
   };
 
-  /**
-   * Handles the sharing of the summary by calling the backend API.
-   * It sends the summary and recipient emails to the Express server.
-   */
+ 
   const handleShareSummary = async () => {
     if (!emails || !summary) {
       setMessage('Please provide a summary and at least one email address to share.');
